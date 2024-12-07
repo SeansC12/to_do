@@ -17,7 +17,7 @@ import {
 } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
-import { TodoCheckbox } from "~/components/Checkbox";
+import { TodoCheckbox } from "~/components/TodoCheckbox";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.todoPageId, "noteId not found");
