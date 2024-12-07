@@ -22,7 +22,7 @@ export function TodoCheckbox({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             fetcher.submit(
               {
-                job: "modifyTodoStatus",
+                intent: "modifyTodoStatus",
                 checked: e.target.checked,
                 id: todoId,
               },
@@ -41,7 +41,7 @@ export function TodoCheckbox({
         className="peer rounded-md bg-red-500 p-1 text-white hover:bg-red-600"
         onClick={() => {
           fetcher.submit(
-            { job: "deleteTodo", id: todoId },
+            { intent: "deleteTodo", id: todoId },
             { method: "delete" },
           );
         }}

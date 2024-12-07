@@ -6,6 +6,7 @@ import {
   useLoaderData,
   useRouteError,
   useFetcher,
+  useNavigation,
 } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
@@ -13,12 +14,16 @@ import {
   getTodoPage,
   deleteTodoPage,
   getAllTodos,
+  createTodo,
   modifyTodoStatus,
   deleteTodo,
 } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
 import { TodoCheckbox } from "~/components/TodoCheckbox";
+import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
+import { useEffect, useRef } from "react";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.todoPageId, "noteId not found");
@@ -44,27 +49,57 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const todoId = formData.getAll("id")[0] as string;
 
-  if (formData.getAll("job")[0] === "modifyTodoStatus") {
+  const isCreatingTodo = formData.get("intent") === "createTodo";
+  const isModifyingTodoStatus = formData.get("intent") === "modifyTodoStatus";
+
+  if (isModifyingTodoStatus) {
     const checkedStatus =
       formData.getAll("checked")[0] === "true" ? true : false;
 
     await modifyTodoStatus({ id: todoId, checkedStatus: checkedStatus });
+
     return json({ message: "success" });
+  } else if (isCreatingTodo) {
+    const content = formData.getAll("todoName")[0] as string;
+
+    await createTodo({
+      content,
+      todoPageId: params.todoPageId as string,
+    });
+
+    return redirect(`/todos/${params.todoPageId}`);
   } else {
     await deleteTodo({ id: todoId });
+
     return redirect(`/todos/${params.todoPageId}`);
   }
 };
 
 export default function TodoPageDetails() {
   const data = useLoaderData<typeof loader>();
+  let navigation = useNavigation();
   const fetcher = useFetcher();
+  let formRef = useRef<HTMLFormElement>(null);
+  let isAddingTodo = navigation.state === "submitting";
+
+  useEffect(() => {
+    if (isAddingTodo) {
+      formRef.current?.reset();
+    }
+  }, [isAddingTodo]);
 
   console.log(data.todos);
 
   return (
     <div>
       <h1 className="text-3xl font-bold">{data.todoPageName}</h1>
+
+      <Form ref={formRef} method="post">
+        <Input name="todoName" placeholder="Buy groceries" />
+        <Button type="submit" name="intent" value="createTodo">
+          Add
+        </Button>
+      </Form>
 
       {data.todos.map((todo) => (
         <div key={todo.id}>
@@ -76,14 +111,6 @@ export default function TodoPageDetails() {
           />
         </div>
       ))}
-      {/* <Form method="post">
-        <button
-          type="submit"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
-        >
-          Delete
-        </button>
-      </Form> */}
     </div>
   );
 }
