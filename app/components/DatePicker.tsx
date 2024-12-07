@@ -13,8 +13,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
+import { SelectSingleEventHandler } from "react-day-picker";
+import { Fetcher, FetcherWithComponents } from "@remix-run/react";
 
-export function DatePicker({ date, setDate }: { date: Date; setDate: any }) {
+export function DatePicker({
+  date,
+  setDate,
+  todoPageItemsFetcher,
+}: {
+  date: Date;
+  setDate: any;
+  todoPageItemsFetcher: FetcherWithComponents<unknown>;
+}) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -33,7 +43,9 @@ export function DatePicker({ date, setDate }: { date: Date; setDate: any }) {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={(date: Date | undefined): void => {
+            setDate(date);
+          }}
           initialFocus
         />
       </PopoverContent>

@@ -15,7 +15,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   password Password?
-  notes    Note[]
+  todoPages TodoPage[]
 }
 
 model Password {
@@ -25,14 +25,25 @@ model Password {
   userId String @unique
 }
 
-model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
-
+model TodoPage {
+  id        String   @id @default(cuid())
+  title     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+  todos     Todo[]
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId    String
+}
+
+model Todo {
+  id        String   @id @default(cuid())
+  content   String
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  todoPage  TodoPage @relation(fields: [todoPageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  todoPageId String
 }
