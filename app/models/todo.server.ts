@@ -63,6 +63,20 @@ export function deleteTodoPage({
   });
 }
 
+export function getTodo({ id }: Pick<Todo, "id">) {
+  return prisma.todo.findFirst({
+    where: { id },
+    select: { id: true, content: true, completed: true },
+  });
+}
+
+export function getAllTodos({ todoPageId }: Pick<Todo, "todoPageId">) {
+  return prisma.todo.findMany({
+    where: { todoPageId },
+    select: { id: true, content: true, completed: true },
+  });
+}
+
 export function createTodo({
   content,
   todoPageId,
@@ -81,13 +95,13 @@ export function createTodo({
   });
 }
 
-export function completeTodo({
+export function modifyTodoStatus({
   id,
-  todoPageId,
-}: Pick<Todo, "id"> & { todoPageId: TodoPage["id"] }) {
+  checkedStatus,
+}: Pick<Todo, "id"> & { checkedStatus: boolean }) {
   return prisma.todo.updateMany({
-    where: { id, todoPageId },
-    data: { completed: true },
+    where: { id },
+    data: { completed: checkedStatus },
   });
 }
 

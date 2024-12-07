@@ -24,17 +24,38 @@ async function seed() {
     },
   });
 
-  await prisma.todoPage.create({
+  const todoPage1 = await prisma.todoPage.create({
     data: {
       title: "My first todo page",
       userId: user.id,
     },
   });
 
-  await prisma.todoPage.create({
+  const todoPage2 = await prisma.todoPage.create({
     data: {
       title: "My second to do page",
       userId: user.id,
+    },
+  });
+
+  await prisma.todo.create({
+    data: {
+      content: "Page 1: Todo 1",
+      todoPageId: todoPage1.id,
+    },
+  });
+
+  await prisma.todo.create({
+    data: {
+      content: "Page 1: Todo 2",
+      todoPageId: todoPage1.id,
+    },
+  });
+
+  await prisma.todo.create({
+    data: {
+      content: "Page 2: Todo 1",
+      todoPageId: todoPage2.id,
     },
   });
 

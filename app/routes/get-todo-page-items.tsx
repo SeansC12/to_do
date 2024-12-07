@@ -1,4 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
 import { getTodoPageListItems } from "~/models/todo.server";
@@ -11,5 +12,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const date = dateString ? new Date(dateString) : new Date();
 
   const todoPageListItems = await getTodoPageListItems({ userId, date: date });
-  return json({ todoPageListItems });
+
+  console.log(todoPageListItems);
+
+  if (todoPageListItems) {
+    return json({ todoPageListItems });
+  }
+  return redirect("/todos");
 };

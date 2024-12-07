@@ -26,7 +26,9 @@
   ],
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-popover": "^1.1.2",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@remix-run/css-bundle": "*",
     "@remix-run/node": "*",
