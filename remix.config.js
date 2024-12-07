@@ -2,4 +2,6 @@
 export default {
   cacheDirectory: "./node_modules/.cache/remix",
   ignoredRouteFiles: ["**/.*", "**/*.test.{ts,tsx}"],
+  tailwind: true,
+  postcss: true,
 };
