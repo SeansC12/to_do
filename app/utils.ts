@@ -74,3 +74,9 @@ export function useUser(): User {
 export function validateEmail(email: unknown): email is string {
   return typeof email === "string" && email.length > 3 && email.includes("@");
 }
+
+export function extractNameFromEmail(email: User["email"]) {
+  const nameMatch = email.match(/^([^@]*)@/);
+  const name = nameMatch ? nameMatch[1] : email;
+  return name;
+}
