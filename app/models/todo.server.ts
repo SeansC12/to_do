@@ -105,11 +105,8 @@ export function modifyTodoStatus({
   });
 }
 
-export function deleteTodo({
-  id,
-  todoPageId,
-}: Pick<Todo, "id"> & { todoPageId: TodoPage["id"] }) {
+export function deleteTodo({ id }: Pick<Todo, "id">) {
   return prisma.todo.deleteMany({
-    where: { id, todoPageId },
+    where: { id },
   });
 }

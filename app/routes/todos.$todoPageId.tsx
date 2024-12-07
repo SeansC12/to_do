@@ -14,6 +14,7 @@ import {
   deleteTodoPage,
   getAllTodos,
   modifyTodoStatus,
+  deleteTodo,
 } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
@@ -39,14 +40,20 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   });
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const formData = await request.formData();
-
   const todoId = formData.getAll("id")[0] as string;
-  const checkedStatus = formData.getAll("checked")[0] === "true" ? true : false;
 
-  await modifyTodoStatus({ id: todoId, checkedStatus: checkedStatus });
-  return json({ message: "success" });
+  if (formData.getAll("job")[0] === "modifyTodoStatus") {
+    const checkedStatus =
+      formData.getAll("checked")[0] === "true" ? true : false;
+
+    await modifyTodoStatus({ id: todoId, checkedStatus: checkedStatus });
+    return json({ message: "success" });
+  } else {
+    await deleteTodo({ id: todoId });
+    return redirect(`/todos/${params.todoPageId}`);
+  }
 };
 
 export default function TodoPageDetails() {
