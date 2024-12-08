@@ -13,17 +13,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { SelectSingleEventHandler } from "react-day-picker";
-import { Fetcher, FetcherWithComponents } from "@remix-run/react";
+import type { NavigateFunction } from "@remix-run/react";
 
 export function DatePicker({
   date,
   setDate,
-  todoPageItemsFetcher,
+  navigate,
 }: {
   date: Date;
-  setDate: any;
-  todoPageItemsFetcher: FetcherWithComponents<unknown>;
+  setDate: Dispatch<SetStateAction<Date>>;
+  navigate: NavigateFunction;
 }) {
   return (
     <Popover>
@@ -44,7 +43,10 @@ export function DatePicker({
           mode="single"
           selected={date}
           onSelect={(date: Date | undefined): void => {
-            setDate(date);
+            if (date) {
+              setDate(date);
+              navigate(`/todos/${format(date, "yyyy-MM-dd")}`);
+            }
           }}
           initialFocus
         />
