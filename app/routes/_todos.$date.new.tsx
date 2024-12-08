@@ -9,12 +9,21 @@ import { Button } from "~/components/ui/button";
 import { createTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
+import { validateTodoPageName } from "~/utils";
+
+import InputErrorText from "~/components/InputErrorText";
+
 export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
   const todayDate = new Date().toISOString().split("T")[0];
 
   const formData = await request.formData();
-  const title = formData.get("title");
+  const title = formData.get("title") as string;
+
+  const { valid, message } = validateTodoPageName(title);
+  if (!valid) {
+    return json({ todoPageNameError: message }, { status: 400 });
+  }
 
   if (typeof title !== "string" || title.length === 0) {
     return json(
@@ -34,10 +43,8 @@ export default function NewNotePage() {
   const bodyRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (actionData?.errors?.title) {
+    if (actionData && "todoPageNameError" in actionData) {
       titleRef.current?.focus();
-    } else if (actionData?.errors?.body) {
-      bodyRef.current?.focus();
     }
   }, [actionData]);
 
@@ -62,9 +69,15 @@ export default function NewNotePage() {
               name="title"
               placeholder="The title of your todo page."
               className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
-              aria-invalid={actionData?.errors?.title ? true : undefined}
+              aria-invalid={
+                actionData && "todoPageNameError" in actionData
+                  ? true
+                  : undefined
+              }
               aria-errormessage={
-                actionData?.errors?.title ? "title-error" : undefined
+                actionData && "todoPageNameError" in actionData
+                  ? "title-error"
+                  : undefined
               }
             />
             <Button
@@ -74,12 +87,10 @@ export default function NewNotePage() {
               Add page
             </Button>
           </div>
+          {actionData && "todoPageNameError" in actionData ? (
+            <InputErrorText error={actionData.todoPageNameError} />
+          ) : null}
         </div>
-        {actionData?.errors?.title ? (
-          <div className="pt-1 text-red-700" id="title-error">
-            {actionData.errors.title}
-          </div>
-        ) : null}
       </div>
     </Form>
   );

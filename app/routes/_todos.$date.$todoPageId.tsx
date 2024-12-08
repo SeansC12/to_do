@@ -93,6 +93,7 @@ export default function TodoPageDetails() {
   let navigation = useNavigation();
   const fetcher = useFetcher();
   let formRef = useRef<HTMLFormElement>(null);
+  let inputRef = useRef<HTMLInputElement>(null);
   let isAddingTodo = navigation.state === "submitting";
 
   const actionData = useActionData<typeof action>();
@@ -103,6 +104,12 @@ export default function TodoPageDetails() {
     }
   }, [isAddingTodo]);
 
+  useEffect(() => {
+    if (actionData && "todoContentError" in actionData) {
+      inputRef.current?.focus();
+    }
+  }, [actionData]);
+
   console.log(data.todos);
 
   return (
@@ -111,7 +118,19 @@ export default function TodoPageDetails() {
 
       <Form className="mb-8" ref={formRef} method="post">
         <div className="flex gap-3">
-          <Input name="todoName" placeholder="Buy groceries" />
+          <Input
+            ref={inputRef}
+            name="todoName"
+            placeholder="Buy groceries"
+            aria-invalid={
+              actionData && "todoContentError" in actionData ? true : undefined
+            }
+            aria-errormessage={
+              actionData && "todoContentError" in actionData
+                ? "content-error"
+                : undefined
+            }
+          />
           <Button type="submit" name="intent" value="createTodo">
             Add
           </Button>

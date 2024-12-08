@@ -82,7 +82,10 @@ export function extractNameFromEmail(email: User["email"]) {
 }
 
 // Todo validation
-export function validateTodoPageName(name: string) {
+export function validateTodoPageName(name: string): {
+  valid: boolean;
+  message: string;
+} {
   const typeCheck = typeof name === "string";
   const lengthCheck = name.length > 0 && name.length <= 30;
   const characterCheck = /^[a-zA-Z0-9 ]+$/.test(name);
