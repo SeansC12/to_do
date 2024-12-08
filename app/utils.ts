@@ -72,7 +72,14 @@ export function useUser(): User {
 }
 
 export function validateEmail(email: unknown): email is string {
-  return typeof email === "string" && email.length > 3 && email.includes("@");
+  if (typeof email !== "string") {
+    return false;
+  }
+  return !!email
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );
 }
 
 export function extractNameFromEmail(email: User["email"]) {
@@ -82,17 +89,18 @@ export function extractNameFromEmail(email: User["email"]) {
 }
 
 // Todo validation
-export function validateTodoPageName(name: string): {
+export function validateTodoPageName(name: unknown): {
   valid: boolean;
   message: string;
 } {
   const typeCheck = typeof name === "string";
-  const lengthCheck = name.length > 0 && name.length <= 30;
-  const characterCheck = /^[a-zA-Z0-9 ]+$/.test(name);
 
   if (!typeCheck) {
     return { valid: false, message: "Page name must be a string" };
   }
+
+  const lengthCheck = name.length > 0 && name.length <= 30;
+  const asciiCharacterCheck = /^[\x00-\x7F]*$/.test(name);
 
   if (!lengthCheck) {
     return {
@@ -101,7 +109,7 @@ export function validateTodoPageName(name: string): {
     };
   }
 
-  if (!characterCheck) {
+  if (!asciiCharacterCheck) {
     return {
       valid: false,
       message: "Page name must only contain letters, numbers, and spaces",
@@ -111,17 +119,19 @@ export function validateTodoPageName(name: string): {
   return { valid: true, message: "" };
 }
 
-export function validateTodoContent(content: string): {
+export function validateTodoContent(content: unknown): {
   valid: boolean;
   message: string;
 } {
   const typeCheck = typeof content === "string";
-  const lengthCheck = content.length > 0 && content.length <= 150;
-  const characterCheck = /^[a-zA-Z0-9 .,!?]+$/.test(content);
 
   if (!typeCheck) {
     return { valid: false, message: "Todo content must be a string" };
   }
+
+  const lengthCheck = content.length > 0 && content.length <= 150;
+  // Add character check to include all ascii characters
+  const asciiCharacterCheck = /^[\x00-\x7F]*$/.test(content);
 
   if (!lengthCheck) {
     return {
@@ -130,11 +140,11 @@ export function validateTodoContent(content: string): {
     };
   }
 
-  if (!characterCheck) {
+  if (!asciiCharacterCheck) {
     return {
       valid: false,
       message:
-        "Todo content must only contain alphanumeric characters and punctuation (.,!?)",
+        "Todo content must only contain alphanumeric characters and basic special characters",
     };
   }
 
