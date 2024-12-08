@@ -3,6 +3,9 @@ import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
+import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
+
 import { createTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
@@ -49,32 +52,34 @@ export default function NewNotePage() {
       }}
     >
       <div>
-        <label className="flex w-full flex-col gap-1">
-          <span>Title: </span>
-          <input
-            ref={titleRef}
-            name="title"
-            className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
-            aria-invalid={actionData?.errors?.title ? true : undefined}
-            aria-errormessage={
-              actionData?.errors?.title ? "title-error" : undefined
-            }
-          />
-        </label>
+        <div className="flex w-full flex-col gap-1">
+          <span className="mb-5 text-3xl font-bold">
+            Create a new todo page
+          </span>
+          <div className="flex gap-3">
+            <Input
+              ref={titleRef}
+              name="title"
+              placeholder="The title of your todo page."
+              className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
+              aria-invalid={actionData?.errors?.title ? true : undefined}
+              aria-errormessage={
+                actionData?.errors?.title ? "title-error" : undefined
+              }
+            />
+            <Button
+              type="submit"
+              className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
+            >
+              Add page
+            </Button>
+          </div>
+        </div>
         {actionData?.errors?.title ? (
           <div className="pt-1 text-red-700" id="title-error">
             {actionData.errors.title}
           </div>
         ) : null}
-      </div>
-
-      <div className="text-right">
-        <button
-          type="submit"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
-        >
-          Add page
-        </button>
       </div>
     </Form>
   );

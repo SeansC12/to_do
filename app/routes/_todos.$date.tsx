@@ -65,7 +65,7 @@ export default function Index() {
         <DatePicker date={date} setDate={setDate} navigate={navigate} />
       </div>
       <Separator />
-      <div className="grid h-full w-full grid-cols-[25%_75%]">
+      <div className="grid h-full w-full grid-cols-[30%_70%]">
         <div className="h-full border-r-[1px] border-neutral-800 p-2">
           {todoPageListItems.length === 0 ? (
             <p>No to-dos yet</p>

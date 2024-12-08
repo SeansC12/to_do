@@ -94,9 +94,9 @@ export default function TodoPageDetails() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold">{data.todoPageName}</h1>
+      <h1 className="mb-8 text-3xl font-bold">{data.todoPageName}</h1>
 
-      <Form ref={formRef} method="post">
+      <Form className="mb-8 flex gap-3" ref={formRef} method="post">
         <Input name="todoName" placeholder="Buy groceries" />
         <Button type="submit" name="intent" value="createTodo">
           Add

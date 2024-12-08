@@ -14,7 +14,7 @@ export function TodoCheckbox({
 }) {
   return (
     <div className="flex">
-      <div className="flex w-[400px] items-center space-x-2">
+      <div className="flex w-full items-center space-x-2">
         <input
           type="checkbox"
           id="terms"
@@ -32,13 +32,13 @@ export function TodoCheckbox({
         />
         <label
           htmlFor="terms"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
           {content}
         </label>
       </div>
       <button
-        className="peer rounded-md bg-red-500 p-1 text-white hover:bg-red-600"
+        className="peer rounded-md px-[5px] py-[3px] transition-all hover:bg-red-950"
         onClick={() => {
           fetcher.submit(
             { intent: "deleteTodo", id: todoId },
@@ -46,7 +46,7 @@ export function TodoCheckbox({
           );
         }}
       >
-        <TrashIcon />
+        <TrashIcon className="mb-0 stroke-red-800" width={20} />
       </button>
     </div>
   );
