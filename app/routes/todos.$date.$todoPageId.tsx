@@ -60,6 +60,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
     return json({ message: "success" });
   } else if (isCreatingTodo) {
+    // Creating todo
     const content = formData.getAll("todoName")[0] as string;
 
     await createTodo({
@@ -67,11 +68,12 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       todoPageId: params.todoPageId as string,
     });
 
-    return redirect(`/todos/${params.todoPageId}`);
+    return redirect(`/todos/${params.date}/${params.todoPageId}`);
   } else {
+    // Delete todo
     await deleteTodo({ id: todoId });
 
-    return redirect(`/todos/${params.todoPageId}`);
+    return redirect(`/todos/${params.date}/${params.todoPageId}`);
   }
 };
 

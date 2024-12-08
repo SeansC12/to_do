@@ -45,6 +45,8 @@ export default function Index() {
   const { todoPageListItems, dateInUrl } = useLoaderData<typeof loader>();
   const [date, setDate] = useState<Date>(new Date(dateInUrl));
 
+  console.log(dateInUrl);
+
   return (
     <div className="flex w-full max-w-[1000px] flex-col items-center">
       <div className="flex flex-col gap-5">
@@ -60,7 +62,7 @@ export default function Index() {
             <div className="flex flex-col">
               {todoPageListItems.map((todoPage) => (
                 <TodoPageTabItem
-                  date={date.toISOString().split("T")[0]}
+                  date={dateInUrl.split("T")[0]}
                   title={todoPage.title}
                   id={todoPage.id}
                 />
