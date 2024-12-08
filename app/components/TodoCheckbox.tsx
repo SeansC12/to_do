@@ -17,7 +17,6 @@ export function TodoCheckbox({
       <div className="flex w-full items-center space-x-2">
         <input
           type="checkbox"
-          id="terms"
           defaultChecked={isChecked}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             fetcher.submit(
@@ -30,15 +29,12 @@ export function TodoCheckbox({
             );
           }}
         />
-        <label
-          htmlFor="terms"
-          className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
+        <label htmlFor="terms" className="text-lg font-medium">
           {content}
         </label>
       </div>
       <button
-        className="peer rounded-md px-[5px] py-[3px] transition-all hover:bg-red-950"
+        className="rounded-md px-[5px] py-[3px] transition-all hover:bg-red-950"
         onClick={() => {
           fetcher.submit(
             { intent: "deleteTodo", id: todoId },

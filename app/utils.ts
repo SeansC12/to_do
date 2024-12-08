@@ -80,3 +80,60 @@ export function extractNameFromEmail(email: User["email"]) {
   const name = nameMatch ? nameMatch[1] : email;
   return name;
 }
+
+// Todo validation
+export function validateTodoPageName(name: string) {
+  const typeCheck = typeof name === "string";
+  const lengthCheck = name.length > 0 && name.length <= 30;
+  const characterCheck = /^[a-zA-Z0-9 ]+$/.test(name);
+
+  if (!typeCheck) {
+    return { valid: false, message: "Page name must be a string" };
+  }
+
+  if (!lengthCheck) {
+    return {
+      valid: false,
+      message: "Page name must be between 1 and 30 characters",
+    };
+  }
+
+  if (!characterCheck) {
+    return {
+      valid: false,
+      message: "Page name must only contain letters, numbers, and spaces",
+    };
+  }
+
+  return { valid: true, message: "" };
+}
+
+export function validateTodoContent(content: string): {
+  valid: boolean;
+  message: string;
+} {
+  const typeCheck = typeof content === "string";
+  const lengthCheck = content.length > 0 && content.length <= 150;
+  const characterCheck = /^[a-zA-Z0-9 .,!?]+$/.test(content);
+
+  if (!typeCheck) {
+    return { valid: false, message: "Todo content must be a string" };
+  }
+
+  if (!lengthCheck) {
+    return {
+      valid: false,
+      message: "Todo content must be between 1 and 150 characters",
+    };
+  }
+
+  if (!characterCheck) {
+    return {
+      valid: false,
+      message:
+        "Todo content must only contain alphanumeric characters and punctuation (.,!?)",
+    };
+  }
+
+  return { valid: true, message: "" };
+}

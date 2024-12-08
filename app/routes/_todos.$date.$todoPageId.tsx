@@ -7,6 +7,7 @@ import {
   useRouteError,
   useFetcher,
   useNavigation,
+  useActionData,
 } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
@@ -19,6 +20,10 @@ import {
   deleteTodo,
 } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
+
+import { validateTodoContent } from "~/utils";
+
+import InputErrorText from "~/components/InputErrorText";
 
 import { TodoCheckbox } from "~/components/TodoCheckbox";
 import { Input } from "~/components/ui/input";
@@ -53,15 +58,21 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   const isModifyingTodoStatus = formData.get("intent") === "modifyTodoStatus";
 
   if (isModifyingTodoStatus) {
-    const checkedStatus =
-      formData.getAll("checked")[0] === "true" ? true : false;
+    const checkedStatus = formData.get("checked") === "true" ? true : false;
 
     await modifyTodoStatus({ id: todoId, checkedStatus: checkedStatus });
 
     return json({ message: "success" });
   } else if (isCreatingTodo) {
-    // Creating todo
+    // Data validation (only exists for creating Todo)
     const content = formData.getAll("todoName")[0] as string;
+    const { valid, message } = validateTodoContent(content);
+
+    if (!valid) {
+      return json({ todoContentError: message }, { status: 400 });
+    }
+
+    // Creating todo
 
     await createTodo({
       content,
@@ -84,6 +95,8 @@ export default function TodoPageDetails() {
   let formRef = useRef<HTMLFormElement>(null);
   let isAddingTodo = navigation.state === "submitting";
 
+  const actionData = useActionData<typeof action>();
+
   useEffect(() => {
     if (isAddingTodo) {
       formRef.current?.reset();
@@ -96,11 +109,16 @@ export default function TodoPageDetails() {
     <div>
       <h1 className="mb-8 text-3xl font-bold">{data.todoPageName}</h1>
 
-      <Form className="mb-8 flex gap-3" ref={formRef} method="post">
-        <Input name="todoName" placeholder="Buy groceries" />
-        <Button type="submit" name="intent" value="createTodo">
-          Add
-        </Button>
+      <Form className="mb-8" ref={formRef} method="post">
+        <div className="flex gap-3">
+          <Input name="todoName" placeholder="Buy groceries" />
+          <Button type="submit" name="intent" value="createTodo">
+            Add
+          </Button>
+        </div>
+        {actionData && "todoContentError" in actionData ? (
+          <InputErrorText error={actionData.todoContentError} />
+        ) : null}
       </Form>
 
       <div className="flex flex-col gap-3">
@@ -131,7 +149,7 @@ export function ErrorBoundary() {
   }
 
   if (error.status === 404) {
-    return <div>Note not found</div>;
+    return <div>Todo page not found</div>;
   }
 
   return <div>An unexpected error occurred: {error.statusText}</div>;
