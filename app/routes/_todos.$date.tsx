@@ -20,6 +20,7 @@ import { getTodoPageListItems, deleteTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
 import TodoPageTabItem from "~/components/TodoPageTabItem";
+import CreateTodoPageTabItem from "~/components/CreateTodoPageTabItem";
 
 import { Separator } from "~/components/ui/separator";
 
@@ -36,7 +37,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   if (todoPageListItems) {
     return json({ todoPageListItems: todoPageListItems, dateInUrl: date });
   }
-  return redirect(`/todos/${params.date}`);
+  return redirect(`/${params.date}`);
 };
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
@@ -46,7 +47,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   await deleteTodoPage({ id: todoPageId as string, userId });
 
-  return redirect(`/todos/${params.date}`);
+  return redirect(`/${params.date}`);
 };
 
 export default function Index() {
@@ -79,6 +80,7 @@ export default function Index() {
               ))}
             </div>
           )}
+          <CreateTodoPageTabItem />
         </div>
         <div className="h-full w-full p-6">
           <Outlet />

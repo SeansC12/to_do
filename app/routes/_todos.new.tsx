@@ -6,9 +6,9 @@ import { useEffect, useRef } from "react";
 import { createTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
-export const action = async ({ params, request }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
-  const date = params.date;
+  const todayDate = new Date().toISOString().split("T")[0];
 
   const formData = await request.formData();
   const title = formData.get("title");
@@ -22,7 +22,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   const todoPage = await createTodoPage({ title, userId });
 
-  return redirect(`/todos/${date}/${todoPage.id}`);
+  return redirect(`/${todayDate}/${todoPage.id}`);
 };
 
 export default function NewNotePage() {

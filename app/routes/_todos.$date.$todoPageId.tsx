@@ -68,12 +68,12 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       todoPageId: params.todoPageId as string,
     });
 
-    return redirect(`/todos/${params.date}/${params.todoPageId}`);
+    return redirect(`/${params.date}/${params.todoPageId}`);
   } else {
     // Delete todo
     await deleteTodo({ id: todoId });
 
-    return redirect(`/todos/${params.date}/${params.todoPageId}`);
+    return redirect(`/${params.date}/${params.todoPageId}`);
   }
 };
 

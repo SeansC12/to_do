@@ -45,7 +45,7 @@ export function DatePicker({
           onSelect={(date: Date | undefined): void => {
             if (date) {
               setDate(date);
-              navigate(`/todos/${format(date, "yyyy-MM-dd")}`);
+              navigate(`/${format(date, "yyyy-MM-dd")}`);
             }
           }}
           initialFocus

@@ -12,7 +12,7 @@ export default function TodoPageTabItem({
 }) {
   return (
     <div className="flex items-stretch" key={id}>
-      <Link to={`/todos/${date}/${id}`}>
+      <Link to={`/${date}/${id}`}>
         <div className="truncate rounded-xl px-2 py-2 text-left text-sm hover:bg-neutral-900">
           {title}
         </div>
