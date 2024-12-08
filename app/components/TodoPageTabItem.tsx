@@ -12,7 +12,7 @@ export default function TodoPageTabItem({
 }) {
   return (
     <div
-      className="flex w-full items-center justify-start rounded-xl px-2 py-2 text-left hover:bg-neutral-900"
+      className="flex w-full items-center justify-start rounded-xl p-2 text-left hover:bg-neutral-900"
       key={id}
     >
       <Link className="grow" to={`/${date}/${id}`}>
