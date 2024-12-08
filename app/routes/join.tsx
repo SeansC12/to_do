@@ -7,6 +7,9 @@ import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
 import { safeRedirect, validateEmail } from "~/utils";
@@ -85,18 +88,18 @@ export default function Join() {
   }, [actionData]);
 
   return (
-    <div className="flex min-h-full flex-col justify-center">
-      <div className="mx-auto w-full max-w-md px-8">
+    <div className="flex min-h-full w-full max-w-[500px] flex-col justify-center">
+      <div className="mx-auto w-full px-8">
         <Form method="post" className="space-y-6">
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Email address
             </label>
             <div className="mt-1">
-              <input
+              <Input
                 ref={emailRef}
                 id="email"
                 required
@@ -120,12 +123,12 @@ export default function Join() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Password
             </label>
             <div className="mt-1">
-              <input
+              <Input
                 id="password"
                 ref={passwordRef}
                 name="password"
@@ -144,14 +147,14 @@ export default function Join() {
           </div>
 
           <input type="hidden" name="redirectTo" value={redirectTo} />
-          <button
+          <Button
             type="submit"
             className="w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
           >
             Create Account
-          </button>
+          </Button>
           <div className="flex items-center justify-center">
-            <div className="text-center text-sm text-gray-500">
+            <div className="text-center text-sm text-gray-400">
               Already have an account?{" "}
               <Link
                 className="text-blue-500 underline"
