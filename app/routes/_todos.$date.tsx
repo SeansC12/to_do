@@ -60,7 +60,7 @@ export default function Index() {
 
   return (
     <div className="flex w-full max-w-[1000px] flex-col items-center">
-      <div className="flex flex-col gap-5">
+      <div className="mb-5 flex flex-col gap-5">
         {user && <h1>{extractNameFromEmail(user.email)}'s To-Dos</h1>}
         <DatePicker date={date} setDate={setDate} navigate={navigate} />
       </div>
