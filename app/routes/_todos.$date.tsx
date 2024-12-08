@@ -82,7 +82,7 @@ export default function Index() {
               ))}
             </div>
           )}
-          {/* <CreateTodoPageTabItem /> */}
+          <CreateTodoPageTabItem date={dateInUrl.split("T")[0]} />
         </div>
         <div className="h-full w-full p-6">
           <Outlet />
