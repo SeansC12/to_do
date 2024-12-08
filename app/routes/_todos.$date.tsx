@@ -5,7 +5,7 @@ import type {
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
-  Link,
+  Form,
   Outlet,
   useFetcher,
   useLoaderData,
@@ -23,6 +23,7 @@ import TodoPageTabItem from "~/components/TodoPageTabItem";
 import CreateTodoPageTabItem from "~/components/CreateTodoPageTabItem";
 
 import { Separator } from "~/components/ui/separator";
+import { Button } from "~/components/ui/button";
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
@@ -60,9 +61,17 @@ export default function Index() {
 
   return (
     <div className="flex w-full max-w-[1000px] flex-col items-center">
-      <div className="mb-5 flex flex-col gap-5">
+      <div className="mb-5 flex w-full flex-row items-start justify-between gap-5">
         {user && <h1>{extractNameFromEmail(user.email)}'s To-Dos</h1>}
         <DatePicker date={date} setDate={setDate} navigate={navigate} />
+        <Form action="/logout" method="post">
+          <Button
+            type="submit"
+            className="rounded bg-slate-600 px-4 py-2 text-blue-100 hover:bg-blue-500 active:bg-blue-600"
+          >
+            Logout
+          </Button>
+        </Form>
       </div>
       <Separator />
       <div className="grid h-full w-full grid-cols-[30%_70%]">
