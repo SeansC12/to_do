@@ -72,15 +72,17 @@ export default function Index() {
           ) : (
             <div className="flex flex-col">
               {todoPageListItems.map((todoPage) => (
-                <TodoPageTabItem
-                  date={dateInUrl.split("T")[0]}
-                  title={todoPage.title}
-                  id={todoPage.id}
-                />
+                <div key={todoPage.id}>
+                  <TodoPageTabItem
+                    date={dateInUrl.split("T")[0]}
+                    title={todoPage.title}
+                    id={todoPage.id}
+                  />
+                </div>
               ))}
             </div>
           )}
-          <CreateTodoPageTabItem />
+          {/* <CreateTodoPageTabItem /> */}
         </div>
         <div className="h-full w-full p-6">
           <Outlet />
