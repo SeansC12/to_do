@@ -103,16 +103,18 @@ export default function TodoPageDetails() {
         </Button>
       </Form>
 
-      {data.todos.map((todo) => (
-        <div key={todo.id}>
-          <TodoCheckbox
-            content={todo.content}
-            todoId={todo.id}
-            isChecked={todo.completed}
-            fetcher={fetcher}
-          />
-        </div>
-      ))}
+      <div className="flex flex-col gap-3">
+        {data.todos.map((todo) => (
+          <div key={todo.id}>
+            <TodoCheckbox
+              content={todo.content}
+              todoId={todo.id}
+              isChecked={todo.completed}
+              fetcher={fetcher}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

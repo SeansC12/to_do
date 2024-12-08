@@ -1,6 +1,9 @@
-import type { MetaFunction, LoaderFunctionArgs } from "@remix-run/node";
+import type {
+  MetaFunction,
+  LoaderFunctionArgs,
+  ActionFunctionArgs,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import invariant from "tiny-invariant";
 import {
   Link,
   Outlet,
@@ -13,15 +16,12 @@ import { DatePicker } from "~/components/DatePicker";
 import { extractNameFromEmail } from "~/utils";
 import { useUser } from "~/utils";
 
-import { getTodoPageListItems } from "~/models/todo.server";
+import { getTodoPageListItems, deleteTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
 import TodoPageTabItem from "~/components/TodoPageTabItem";
 
-import type { TodoPage } from "@prisma/client";
-
 import { Separator } from "~/components/ui/separator";
-import { format } from "path";
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
@@ -36,7 +36,17 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   if (todoPageListItems) {
     return json({ todoPageListItems: todoPageListItems, dateInUrl: date });
   }
-  return redirect("/todos");
+  return redirect(`/todos/${params.date}`);
+};
+
+export const action = async ({ params, request }: ActionFunctionArgs) => {
+  const userId = await requireUserId(request);
+  const formData = await request.formData();
+  const todoPageId = formData.get("id");
+
+  await deleteTodoPage({ id: todoPageId as string, userId });
+
+  return redirect(`/todos/${params.date}`);
 };
 
 export default function Index() {
