@@ -44,7 +44,7 @@ export function useMatchesData(
   return route?.data as Record<string, unknown>;
 }
 
-function isUser(user: unknown): user is User {
+export function isUser(user: unknown): user is User {
   return (
     user != null &&
     typeof user === "object" &&

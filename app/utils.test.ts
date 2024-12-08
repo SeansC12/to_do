@@ -1,13 +1,136 @@
 import {
+  safeRedirect,
+  isUser,
+  useOptionalUser,
+  useUser,
   validateEmail,
   extractNameFromEmail,
   validateTodoPageName,
   validateTodoContent,
 } from "./utils";
+
+import { renderHook } from "@testing-library/react-hooks";
+import { useMatches } from "@remix-run/react";
+import { describe, it, expect, vi, Mock } from "vitest";
+
 import { faker } from "@faker-js/faker";
 
+describe("safeRedirect function", () => {
+  describe("safeRedirect", () => {
+    const DEFAULT_REDIRECT = "/default";
+
+    it("should return the default redirect if 'to' is null", () => {
+      expect(safeRedirect(null, DEFAULT_REDIRECT)).toBe(DEFAULT_REDIRECT);
+    });
+
+    it("should return the default redirect if 'to' is undefined", () => {
+      expect(safeRedirect(undefined, DEFAULT_REDIRECT)).toBe(DEFAULT_REDIRECT);
+    });
+
+    it("should return the default redirect if 'to' is not a string", () => {
+      expect(safeRedirect(123 as any, DEFAULT_REDIRECT)).toBe(DEFAULT_REDIRECT);
+    });
+
+    it("should return the default redirect if 'to' does not start with '/'", () => {
+      expect(safeRedirect("example.com", DEFAULT_REDIRECT)).toBe(
+        DEFAULT_REDIRECT,
+      );
+    });
+
+    it("should return the default redirect if 'to' starts with '//'", () => {
+      expect(safeRedirect("//example.com", DEFAULT_REDIRECT)).toBe(
+        DEFAULT_REDIRECT,
+      );
+    });
+
+    it("should return 'to' if it is a valid path", () => {
+      expect(safeRedirect("/valid-path", DEFAULT_REDIRECT)).toBe("/valid-path");
+    });
+  });
+});
+
+vi.mock("@remix-run/react", () => ({
+  useMatches: vi.fn(),
+}));
+
+describe("isUser", () => {
+  it("should return true for a valid user object", () => {
+    const user = { email: "test@example.com" };
+    expect(isUser(user)).toBe(true);
+  });
+
+  it("should return false for an invalid user object", () => {
+    const user = { email: 123 };
+    expect(isUser(user)).toBe(false);
+  });
+
+  it("should return false for null", () => {
+    expect(isUser(null)).toBe(false);
+  });
+
+  it("should return false for undefined", () => {
+    expect(isUser(undefined)).toBe(false);
+  });
+
+  it("should return false for a non-object", () => {
+    expect(isUser("not an object")).toBe(false);
+  });
+});
+
+describe("useOptionalUser", () => {
+  it("should return undefined if no matching route is found", () => {
+    (useMatches as Mock).mockReturnValue([]);
+    const { result } = renderHook(() => useOptionalUser());
+    expect(result.current).toBeUndefined();
+  });
+
+  it("should return undefined if data is not a user", () => {
+    (useMatches as Mock).mockReturnValue([
+      { id: "root", data: { user: { email: 123 } } },
+    ]);
+    const { result } = renderHook(() => useOptionalUser());
+    expect(result.current).toBeUndefined();
+  });
+
+  it("should return the user if data is a valid user", () => {
+    const mockUser = { email: "test@example.com" };
+    (useMatches as Mock).mockReturnValue([
+      { id: "root", data: { user: mockUser } },
+    ]);
+    const { result } = renderHook(() => useOptionalUser());
+    expect(result.current).toEqual(mockUser);
+  });
+});
+
+// vi.mock(import("./utils"), async () => {
+//   const actual = await vi.importActual("./utils");
+//   return {
+//     ...actual,
+//     useOptionalUser: vi.fn(),
+//   };
+// });
+
+// describe("useUser", () => {
+//   it("should throw an error if no user is found", () => {
+//     (useOptionalUser as Mock).mockReturnValue(undefined);
+//     const { result } = renderHook(() => useUser());
+//     expect(result.error).toEqual(
+//       new Error(
+//         "No user found in root loader, but user is required by useUser. If user is optional, try useOptionalUser instead.",
+//       ),
+//     );
+//   });
+
+//   it("should return the user if a user is found", () => {
+//     const mockUser = { email: "test@example.com" };
+//     (useOptionalUser as Mock).mockReturnValue(mockUser);
+//     const { result } = renderHook(() => useUser());
+//     expect(result.current).toEqual(mockUser);
+//   });
+// });
+
 describe("validateEmail function", () => {
-  test("validateEmail returns false for non-emails", () => {
+  it("should return false for non-emails", () => {
     expect(validateEmail(undefined)).toBe(false);
     expect(validateEmail(null)).toBe(false);
     expect(validateEmail("")).toBe(false);
@@ -16,7 +139,7 @@ describe("validateEmail function", () => {
     expect(validateEmail("n@n@")).toBe(false);
   });
 
-  test("validateEmail returns true for emails", () => {
+  it("should return true for emails", () => {
     for (let i = 0; i < 35; i++) {
       const email = faker.internet.email();
       expect(validateEmail(email)).toBe(true);
@@ -25,7 +148,7 @@ describe("validateEmail function", () => {
 });
 
 describe("extractNameFromEmail function", () => {
-  test("extractNameFromEmail returns the name from an email", () => {
+  it("should return the name from an email", () => {
     expect(extractNameFromEmail("sean@test.com")).toEqual("sean");
     expect(extractNameFromEmail("sean@")).toEqual("sean");
     expect(extractNameFromEmail("sean")).toEqual("sean");
@@ -35,7 +158,7 @@ describe("extractNameFromEmail function", () => {
 });
 
 describe("validateTodoPageName function", () => {
-  test("validateTodoPageName returns false for invalid page names", () => {
+  it("should return false for invalid page names", () => {
     expect(validateTodoPageName(undefined)).toEqual({
       valid: false,
       message: "Page name must be a string",
@@ -70,7 +193,7 @@ describe("validateTodoPageName function", () => {
     });
   });
 
-  test("validateTodoPageName returns true for valid page names", () => {
+  it("should return true for valid page names", () => {
     expect(validateTodoPageName("valid name")).toEqual({
       valid: true,
       message: "",
@@ -91,7 +214,7 @@ describe("validateTodoPageName function", () => {
 });
 
 describe("validateTodoContent function", () => {
-  test("validateTodoContent returns false for invalid todo content", () => {
+  it("should return false for invalid todo content", () => {
     expect(validateTodoContent(undefined)).toEqual({
       valid: false,
       message: "Todo content must be a string",
@@ -126,7 +249,7 @@ describe("validateTodoContent function", () => {
     });
   });
 
-  test("validateTodoContent returns true for valid todo content", () => {
+  it("should return true for valid todo content", () => {
     expect(validateTodoContent("valid content")).toEqual({
       valid: true,
       message: "",
