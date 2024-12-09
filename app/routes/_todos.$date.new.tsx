@@ -25,13 +25,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ todoPageNameError: message }, { status: 400 });
   }
 
-  if (typeof title !== "string" || title.length === 0) {
-    return json(
-      { errors: { body: null, title: "Title is required" } },
-      { status: 400 },
-    );
-  }
-
   const todoPage = await createTodoPage({ title, userId });
 
   return redirect(`/${todayDate}/${todoPage.id}`);
