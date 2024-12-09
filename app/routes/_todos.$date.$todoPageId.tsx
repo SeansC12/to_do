@@ -31,11 +31,13 @@ import { Button } from "~/components/ui/button";
 import { useEffect, useRef } from "react";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-  invariant(params.todoPageId, "noteId not found");
+  invariant(params.todoPageId, "todoPageId not found");
 
   const todos = await getAllTodos({ todoPageId: params.todoPageId });
-  if (!todos) {
-    throw new Response("Not Found", { status: 404 });
+  console.log(todos);
+  if (!todos || todos.length === 0) {
+    // throw new Response("Not Found", { status: 404 });
+    throw new Error("Todo page not found.");
   }
 
   const userId = await requireUserId(request);

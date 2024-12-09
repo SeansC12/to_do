@@ -34,31 +34,9 @@ vi.mock("@remix-run/react", async () => {
   };
 });
 
-describe("Index Route", () => {
+describe("action and loader functions", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-  });
-
-  it("renders the component correctly", async () => {
-    (useUser as Mock).mockReturnValue({ email: "test@example.com" });
-    (getTodoPageListItems as Mock).mockResolvedValue([]);
-    (requireUserId as Mock).mockResolvedValue("user-id");
-    (extractNameFromEmail as Mock).mockReturnValue("test");
-
-    const RemixStub = createRemixStub([
-      {
-        path: "/",
-        loader: loader,
-        action: action,
-        Component: Index,
-        ErrorBoundary: ErrorBoundary,
-      },
-    ]);
-
-    render(<RemixStub />);
-
-    await waitFor(() => screen.findByText("test's To-Dos"));
-    await waitFor(() => screen.findByText("No to-dos yet"));
   });
 
   it("loader function returns correct data", async () => {
@@ -99,6 +77,34 @@ describe("Index Route", () => {
 
     expect(deleteTodoPage).toHaveBeenCalledWith({ id: "1", userId: "user-id" });
     expect(result.headers.get("Location")).toBe("/2023-01-01");
+  });
+});
+
+describe("Index Route", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("renders the component correctly", async () => {
+    (useUser as Mock).mockReturnValue({ email: "test@example.com" });
+    (getTodoPageListItems as Mock).mockResolvedValue([]);
+    (requireUserId as Mock).mockResolvedValue("user-id");
+    (extractNameFromEmail as Mock).mockReturnValue("test");
+
+    const RemixStub = createRemixStub([
+      {
+        path: "/",
+        loader: loader,
+        action: action,
+        Component: Index,
+        ErrorBoundary: ErrorBoundary,
+      },
+    ]);
+
+    render(<RemixStub />);
+
+    await waitFor(() => screen.findByText("test's To-Dos"));
+    await waitFor(() => screen.findByText("No to-dos yet"));
   });
 
   it("renders todoPageListItems correctly", async () => {
