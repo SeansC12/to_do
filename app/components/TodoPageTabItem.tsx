@@ -12,13 +12,13 @@ export default function TodoPageTabItem({
 }) {
   return (
     <div
-      className="flex w-full items-center justify-start rounded-xl p-2 text-left hover:bg-neutral-900"
+      className="flex w-full items-center justify-start rounded-xl text-left hover:bg-neutral-900"
       key={id}
     >
-      <Link className="grow" to={`/${date}/${id}`}>
+      <Link className="grow p-2" to={`/${date}/${id}`}>
         <div className="truncate">{title}</div>
       </Link>
-      <div className="flex max-w-[25px] items-center justify-center">
+      <div className="flex max-w-[31px] items-center justify-center p-2">
         <Form className="max-h-[27px]" method="delete">
           <button
             className="rounded-md px-[5px] py-[3px] transition-all hover:bg-red-950"
