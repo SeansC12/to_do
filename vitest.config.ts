@@ -23,8 +23,8 @@ export default defineConfig({
         ".eslintrc.cjs",
         "**/entry*.ts",
         "**/ui/**",
-        // entry.client.ts and entry.server.ts
-        "**/entry.*.ts",
+        "**/entry.*.tsx",
+        "**/healthcheck.tsx",
       ],
     },
   },
