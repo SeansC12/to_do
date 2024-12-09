@@ -169,9 +169,9 @@ export function ErrorBoundary() {
     return <h1>Unknown Error</h1>;
   }
 
-  if (error.status === 404) {
-    return <div>Todo page not found</div>;
-  }
+  // if (error.status === 404) {
+  //   return <div>Error 404: Todo page not found</div>;
+  // }
 
-  return <div>An unexpected error occurred: {error.statusText}</div>;
+  return <div>An unexpected error occurred: {error.data}</div>;
 }
