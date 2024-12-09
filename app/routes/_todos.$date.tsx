@@ -10,6 +10,8 @@ import {
   useFetcher,
   useLoaderData,
   useNavigate,
+  useRouteError,
+  isRouteErrorResponse,
 } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import { DatePicker } from "~/components/DatePicker";
@@ -36,9 +38,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   console.log(todoPageListItems);
 
   if (todoPageListItems) {
-    return json({ todoPageListItems: todoPageListItems, dateInUrl: date });
   }
-  return redirect(`/${params.date}`);
+  return json({ todoPageListItems: todoPageListItems, dateInUrl: date });
+  // return redirect(`/${params.date}`);
 };
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
@@ -62,7 +64,7 @@ export default function Index() {
   return (
     <div className="flex w-full max-w-[1000px] flex-col items-center">
       <div className="mb-5 flex w-full flex-row items-start justify-between gap-5">
-        {user && <h1>{extractNameFromEmail(user.email)}'s To-Dos</h1>}
+        {user.email && <h1>{extractNameFromEmail(user.email)}'s To-Dos</h1>}
         <DatePicker date={date} setDate={setDate} navigate={navigate} />
         <Form action="/logout" method="post">
           <Button
@@ -101,15 +103,16 @@ export default function Index() {
   );
 }
 
-// import { Link } from "@remix-run/react";
+export function ErrorBoundary() {
+  const error = useRouteError();
 
-// export default function NoteIndexPage() {
-//   return (
-//     <p>
-//       No note selected. Select a note on the left, or{" "}
-//       <Link to="new" className="text-blue-500 underline">
-//         create a new note.
-//       </Link>
-//     </p>
-//   );
-// }
+  if (error instanceof Error) {
+    return <div>An unexpected error occurred: {error.message}</div>;
+  }
+
+  if (!isRouteErrorResponse(error)) {
+    return <div>Unknown Error</div>;
+  }
+
+  return <div>An unexpected error occurred</div>;
+}

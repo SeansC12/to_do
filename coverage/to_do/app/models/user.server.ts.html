@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">2.17% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/46</span>
+                <span class='fraction'>1/46</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">2.17% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/46</span>
+                <span class='fraction'>1/46</span>
             </div>
         
             
@@ -126,7 +126,7 @@
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -189,22 +189,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import type { Password, User } from "@prisma/client";</span></span></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { Password, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 &nbsp;
 import { prisma } from "~/db.server";
 &nbsp;
 export type { User } from "@prisma/client";
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export async function getUserById(id: User["id"]) {</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export async function getUserById(id: User["id"]) {</span></span>
 <span class="cstat-no" title="statement not covered" >  return prisma.user.findUnique({ where: { id } });</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export async function getUserByEmail(email: User["email"]) {</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export async function getUserByEmail(email: User["email"]) {</span></span>
 <span class="cstat-no" title="statement not covered" >  return prisma.user.findUnique({ where: { email } });</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export async function createUser(email: User["email"], password: string) {</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export async function createUser(email: User["email"], password: string) {</span></span>
 <span class="cstat-no" title="statement not covered" >  const hashedPassword = await bcrypt.hash(password, 10);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return prisma.user.create({</span>
@@ -219,11 +219,11 @@ export type { User } from "@prisma/client";
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export async function deleteUserByEmail(email: User["email"]) {</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export async function deleteUserByEmail(email: User["email"]) {</span></span>
 <span class="cstat-no" title="statement not covered" >  return prisma.user.delete({ where: { email } });</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export async function verifyLogin(</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export async function verifyLogin(</span></span>
 <span class="cstat-no" title="statement not covered" >  email: User["email"],</span>
 <span class="cstat-no" title="statement not covered" >  password: Password["hash"],</span>
 <span class="cstat-no" title="statement not covered" >) {</span>
@@ -259,7 +259,7 @@ export type { User } from "@prisma/client";
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-12-08T13:53:32.149Z
+                at 2024-12-09T07:54:36.846Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

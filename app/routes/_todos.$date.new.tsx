@@ -30,10 +30,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return redirect(`/${todayDate}/${todoPage.id}`);
 };
 
-export default function NewNotePage() {
+export default function NewTodoPage() {
   const actionData = useActionData<typeof action>();
   const titleRef = useRef<HTMLInputElement>(null);
-  const bodyRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (actionData && "todoPageNameError" in actionData) {

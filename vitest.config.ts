@@ -15,8 +15,16 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       exclude: [
-        // ...
+        "**/cypress/**",
+        "**/mocks/**",
+        "**/prisma/**",
+        "*config.{js,ts}",
         "**/build/**",
+        ".eslintrc.cjs",
+        "**/entry*.ts",
+        "**/ui/**",
+        // entry.client.ts and entry.server.ts
+        "**/entry.*.ts",
       ],
     },
   },
