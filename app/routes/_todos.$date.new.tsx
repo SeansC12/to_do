@@ -1,6 +1,11 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import {
+  Form,
+  useActionData,
+  useRouteError,
+  isRouteErrorResponse,
+} from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
 import { Input } from "~/components/ui/input";
@@ -26,6 +31,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const todoPage = await createTodoPage({ title, userId });
+  console.log("date", todayDate);
 
   return redirect(`/${todayDate}/${todoPage.id}`);
 };
@@ -86,4 +92,18 @@ export default function NewTodoPage() {
       </div>
     </Form>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (error instanceof Error) {
+    return <div>An unexpected error occurred: {error.message}</div>;
+  }
+
+  if (!isRouteErrorResponse(error)) {
+    return <h1>Unknown Error</h1>;
+  }
+
+  return <div>An unexpected error occurred: {error.data}</div>;
 }

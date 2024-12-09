@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>72/72</span>
+                <span class='fraction'>97/97</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>72/72</span>
+                <span class='fraction'>97/97</span>
             </div>
         
             
@@ -210,7 +210,12 @@
 <a name='L145'></a><a href='#L145'>145</a>
 <a name='L146'></a><a href='#L146'>146</a>
 <a name='L147'></a><a href='#L147'>147</a>
-<a name='L148'></a><a href='#L148'>148</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -218,6 +223,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -331,31 +337,35 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { render, screen, fireEvent } from "@testing-library/react";
 import {
@@ -365,12 +375,13 @@ import {
 } from "react-router-dom";
 &nbsp;
 import { describe, it, expect, vi } from "vitest";
-import { action } from "./_todos.$date.new";
+import { action, ErrorBoundary } from "./_todos.$date.new";
 import NewTodoPage from "./_todos.$date.new";
 import { createTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 import { validateTodoPageName } from "~/utils";
 import { Mock } from "vitest";
+import { createRemixStub } from "@remix-run/testing";
 &nbsp;
 vi.mock("~/models/todo.server", () =&gt; ({
   createTodoPage: vi.fn(),
@@ -463,7 +474,7 @@ describe("action function", () =&gt; {
   });
 });
 &nbsp;
-describe("NewNotePage component", () =&gt; {
+describe("NewTodoPage component", () =&gt; {
   it("should render the form", () =&gt; {
     const router = createMemoryRouter(
       [{ path: "/", element: &lt;NewTodoPage /&gt; }],
@@ -478,31 +489,35 @@ describe("NewNotePage component", () =&gt; {
     expect(screen.getByText("Add page")).toBeInTheDocument();
   });
 &nbsp;
-  // it("should display validation error on form submission", async () =&gt; {
-  //   (validateTodoPageName as Mock).mockReturnValue({
-  //     valid: false,
-  //     message: "Invalid title",
-  //   });
+  it("should display validation error on form submission", async () =&gt; {
+    (validateTodoPageName as Mock).mockReturnValue({
+      valid: false,
+      message: "Invalid title",
+    });
 &nbsp;
-  //   const router = createMemoryRouter(
-  //     [{ path: "/", element: &lt;NewTodoPage /&gt;, action: action as any }],
-  //     { initialEntries: ["/"] },
-  //   );
+    const RemixStub = createRemixStub([
+      {
+        path: "/",
+        action: action,
+        Component: NewTodoPage,
+        ErrorBoundary: ErrorBoundary,
+      },
+    ]);
 &nbsp;
-  //   render(&lt;RouterProvider router={router} /&gt;);
+    render(&lt;RemixStub /&gt;);
 &nbsp;
-  //   fireEvent.change(
-  //     screen.getByPlaceholderText("The title of your todo page."),
-  //     {
-  //       target: { name: "title" },
-  //     },
-  //   );
-  //   fireEvent.click(screen.getByText("Add page"));
+    fireEvent.change(
+      screen.getByPlaceholderText("The title of your todo page."),
+      {
+        target: { name: "title" },
+      },
+    );
+    fireEvent.click(screen.getByText("Add page"));
 &nbsp;
-  //   const errorMessage = await screen.findByText("Invalid title");
-  //   screen.debug();
-  //   expect(errorMessage).toBeInTheDocument();
-  // });
+    const errorMessage = await screen.findByText("Invalid title");
+    screen.debug();
+    expect(errorMessage).toBeInTheDocument();
+  });
 });
 &nbsp;</pre></td></tr></table></pre>
 
@@ -511,7 +526,7 @@ describe("NewNotePage component", () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-12-09T13:50:04.665Z
+                at 2024-12-09T14:13:03.821Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -6,12 +6,13 @@ import {
 } from "react-router-dom";
 
 import { describe, it, expect, vi } from "vitest";
-import { action } from "./_todos.$date.new";
+import { action, ErrorBoundary } from "./_todos.$date.new";
 import NewTodoPage from "./_todos.$date.new";
 import { createTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 import { validateTodoPageName } from "~/utils";
 import { Mock } from "vitest";
+import { createRemixStub } from "@remix-run/testing";
 
 vi.mock("~/models/todo.server", () => ({
   createTodoPage: vi.fn(),
@@ -104,7 +105,7 @@ describe("action function", () => {
   });
 });
 
-describe("NewNotePage component", () => {
+describe("NewTodoPage component", () => {
   it("should render the form", () => {
     const router = createMemoryRouter(
       [{ path: "/", element: <NewTodoPage /> }],
@@ -119,29 +120,33 @@ describe("NewNotePage component", () => {
     expect(screen.getByText("Add page")).toBeInTheDocument();
   });
 
-  // it("should display validation error on form submission", async () => {
-  //   (validateTodoPageName as Mock).mockReturnValue({
-  //     valid: false,
-  //     message: "Invalid title",
-  //   });
+  it("should display validation error on form submission", async () => {
+    (validateTodoPageName as Mock).mockReturnValue({
+      valid: false,
+      message: "Invalid title",
+    });
 
-  //   const router = createMemoryRouter(
-  //     [{ path: "/", element: <NewTodoPage />, action: action as any }],
-  //     { initialEntries: ["/"] },
-  //   );
+    const RemixStub = createRemixStub([
+      {
+        path: "/",
+        action: action,
+        Component: NewTodoPage,
+        ErrorBoundary: ErrorBoundary,
+      },
+    ]);
 
-  //   render(<RouterProvider router={router} />);
+    render(<RemixStub />);
 
-  //   fireEvent.change(
-  //     screen.getByPlaceholderText("The title of your todo page."),
-  //     {
-  //       target: { name: "title" },
-  //     },
-  //   );
-  //   fireEvent.click(screen.getByText("Add page"));
+    fireEvent.change(
+      screen.getByPlaceholderText("The title of your todo page."),
+      {
+        target: { name: "title" },
+      },
+    );
+    fireEvent.click(screen.getByText("Add page"));
 
-  //   const errorMessage = await screen.findByText("Invalid title");
-  //   screen.debug();
-  //   expect(errorMessage).toBeInTheDocument();
-  // });
+    const errorMessage = await screen.findByText("Invalid title");
+    screen.debug();
+    expect(errorMessage).toBeInTheDocument();
+  });
 });

@@ -48,13 +48,7 @@ describe("loader", () => {
     const params = { todoPageId: "1" };
     const request = new Request("http://localhost/2023-01-01");
 
-    (getAllTodos as Mock).mockResolvedValue([]);
-
-    // const result = await loader({
-    //   params,
-    //   request,
-    //   context: {} as AppLoadContext,
-    // });
+    (getAllTodos as Mock).mockResolvedValue(undefined);
 
     expect(
       loader({ params, request, context: {} as AppLoadContext }),
@@ -295,30 +289,5 @@ describe("TodoPageDetails component", () => {
 
       expect(input.value).toBe("");
     });
-    // expect(input.value).toBe("");
-
-    // fireEvent.change(input, { target: { value: "New Todo" } });
-
-    // fireEvent.submit(screen.getByText("Add"));
-
-    // expect(input.value).toBe("");
-
-    // await waitFor(() => {
-    //   const input = screen.getByPlaceholderText(
-    //     "Buy groceries",
-    //   ) as HTMLInputElement;
-
-    //   fireEvent.change(input, { target: { value: "New Todo" } });
-
-    //   fireEvent.submit(screen.getByText("Add"));
-    // });
-
-    // await waitFor(() => {
-    //   const input = screen.getByPlaceholderText(
-    //     "Buy groceries",
-    //   ) as HTMLInputElement;
-
-    //   expect(input.value).toBe("");
-    // });
   });
 });

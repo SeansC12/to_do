@@ -35,7 +35,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const todos = await getAllTodos({ todoPageId: params.todoPageId });
   console.log(todos);
-  if (!todos || todos.length === 0) {
+  if (!todos) {
     // throw new Response("Not Found", { status: 404 });
     throw new Error("Todo page not found.");
   }
@@ -168,10 +168,6 @@ export function ErrorBoundary() {
   if (!isRouteErrorResponse(error)) {
     return <h1>Unknown Error</h1>;
   }
-
-  // if (error.status === 404) {
-  //   return <div>Error 404: Todo page not found</div>;
-  // }
 
   return <div>An unexpected error occurred: {error.data}</div>;
 }
