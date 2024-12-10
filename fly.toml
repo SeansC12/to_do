@@ -1,4 +1,4 @@
-app = "to_do-2176"
+app = "todolistapp"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = [ ]
