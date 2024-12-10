@@ -34,10 +34,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const todoPageListItems = await getTodoPageListItems({ userId, date: date });
 
-  if (todoPageListItems) {
-  }
   return json({ todoPageListItems: todoPageListItems, dateInUrl: date });
-  // return redirect(`/${params.date}`);
 };
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
