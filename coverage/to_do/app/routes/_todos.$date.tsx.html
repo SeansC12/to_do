@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.14% </span>
+                <span class="strong">95.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>68/70</span>
+                <span class='fraction'>67/70</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/14</span>
+                <span class='fraction'>12/14</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.14% </span>
+                <span class="strong">95.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>68/70</span>
+                <span class='fraction'>67/70</span>
             </div>
         
             
@@ -174,16 +174,7 @@
 <a name='L109'></a><a href='#L109'>109</a>
 <a name='L110'></a><a href='#L110'>110</a>
 <a name='L111'></a><a href='#L111'>111</a>
-<a name='L112'></a><a href='#L112'>112</a>
-<a name='L113'></a><a href='#L113'>113</a>
-<a name='L114'></a><a href='#L114'>114</a>
-<a name='L115'></a><a href='#L115'>115</a>
-<a name='L116'></a><a href='#L116'>116</a>
-<a name='L117'></a><a href='#L117'>117</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L112'></a><a href='#L112'>112</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -217,9 +208,6 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -244,6 +232,8 @@
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
@@ -304,27 +294,23 @@ import { json, redirect } from "@remix-run/node";
 import {
   Form,
   Outlet,
-  useFetcher,
   useLoaderData,
   useNavigate,
   useRouteError,
   isRouteErrorResponse,
 } from "@remix-run/react";
-import { useState, useEffect } from "react";
-import { DatePicker } from "~/components/DatePicker";
-import { extractNameFromEmail } from "~/utils";
-import { useUser } from "~/utils";
+import { useState } from "react";
 &nbsp;
+import CreateTodoPageTabItem from "~/components/CreateTodoPageTabItem";
+import { DatePicker } from "~/components/DatePicker";
+import TodoPageTabItem from "~/components/TodoPageTabItem";
+import { Button } from "~/components/ui/button";
+import { Separator } from "~/components/ui/separator";
 import { getTodoPageListItems, deleteTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
+import { extractNameFromEmail, useUser } from "~/utils";
 &nbsp;
-import TodoPageTabItem from "~/components/TodoPageTabItem";
-import CreateTodoPageTabItem from "~/components/CreateTodoPageTabItem";
-&nbsp;
-import { Separator } from "~/components/ui/separator";
-import { Button } from "~/components/ui/button";
-&nbsp;
-export const meta: MetaFunction = () =&gt; [{ title: "Remix Notes" }];
+export const meta: MetaFunction = () =&gt; [{ title: "Todo App" }];
 &nbsp;
 export const loader = async ({ params, request }: LoaderFunctionArgs) =&gt; {
   const userId = await requireUserId(request);
@@ -332,10 +318,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) =&gt; {
 &nbsp;
   const todoPageListItems = await getTodoPageListItems({ userId, date: date });
 &nbsp;
-  if (todoPageListItems) {
-  }
   return json({ todoPageListItems: todoPageListItems, dateInUrl: date });
-  // return redirect(`/${params.date}`);
 };
 &nbsp;
 export const action = async ({ params, request }: ActionFunctionArgs) =&gt; {
@@ -359,7 +342,9 @@ export default function Index() {
   return (
     &lt;div className="flex w-full max-w-[1000px] flex-col items-center"&gt;
       &lt;div className="mb-5 flex w-full flex-row items-start justify-between gap-5"&gt;
-        {user.email &amp;&amp; &lt;h1&gt;{extractNameFromEmail(user.email)}'s To-Dos&lt;/h1&gt;}
+        {user.email ? (
+          &lt;h1&gt;{extractNameFromEmail(user.email)}&amp;apos;s To-Dos<span class="branch-0 cbranch-no" title="branch not covered" >&lt;/h1&gt;</span>
+<span class="cstat-no" title="statement not covered" >        ) : null}</span>
         &lt;DatePicker date={date} setDate={setDate} navigate={navigate} /&gt;
         &lt;Form action="/logout" method="post"&gt;
           &lt;Button
@@ -418,7 +403,7 @@ export function ErrorBoundary() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-12-10T02:56:55.646Z
+                at 2024-12-10T12:41:53.606Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -37,7 +37,7 @@
 
 ![image](https://github.com/user-attachments/assets/c7147f45-dfb9-4790-8174-6a86d336ab66)
 
-This project was built with Remix, which is the first time I used Remix. It is my application to the Full-Stack Intern role at Alpha Story. I also wanted to build this to learn more about Remix.
+This todo list app is a full stack application using Remix with SQLite and Prisma (SQLite database).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -60,7 +60,8 @@ https://github.com/user-attachments/assets/6f3d52d8-a7ce-49d1-b661-8b25f14665ec
 - Remix (TypeScript)
 - SQLite database
 - Database ORM with Prisma
-- Styling with Tailwind
+- Styling with TailwindCSS
+- Component library Shadcn
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
