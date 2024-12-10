@@ -6,8 +6,8 @@ import {
 } from "react-router-dom";
 
 import { describe, it, expect, vi } from "vitest";
-import { action, ErrorBoundary } from "./_todos.$date.new";
-import NewTodoPage from "./_todos.$date.new";
+import { action, ErrorBoundary } from "../_todos.$date.new";
+import NewTodoPage from "../_todos.$date.new";
 import { createTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 import { validateTodoPageName } from "~/utils";

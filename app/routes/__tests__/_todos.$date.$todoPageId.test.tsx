@@ -4,7 +4,7 @@ import TodoPageDetails, {
   loader,
   action,
   ErrorBoundary,
-} from "./_todos.$date.$todoPageId";
+} from "../_todos.$date.$todoPageId";
 import {
   getTodoPage,
   getAllTodos,

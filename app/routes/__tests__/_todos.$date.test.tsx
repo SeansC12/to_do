@@ -13,7 +13,7 @@ import {
   meta,
   ErrorBoundary,
   default as Index,
-} from "./_todos.$date";
+} from "../_todos.$date";
 import { extractNameFromEmail, useUser } from "~/utils";
 import { getTodoPageListItems, deleteTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
