@@ -7,14 +7,12 @@ import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
+import InputErrorText from "~/components/InputErrorText";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
 import { safeRedirect, validateEmail } from "~/utils";
-
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
-
-import InputErrorText from "~/components/InputErrorText";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);

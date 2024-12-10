@@ -14,6 +14,7 @@ module.exports = {
       jsx: true,
     },
   },
+  ignorePatterns: ["app/components/ui/*", "*.config.ts"],
   env: {
     browser: true,
     commonjs: true,

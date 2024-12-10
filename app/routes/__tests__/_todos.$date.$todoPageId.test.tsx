@@ -1,17 +1,9 @@
-import { describe, it, expect, vi, type Mock } from "vitest";
 import type { AppLoadContext } from "@remix-run/node";
 import { json } from "@remix-run/node";
-
-import { screen, render, fireEvent, waitFor } from "@testing-library/react";
-import { createRemixStub } from "@remix-run/testing";
-
 import { useNavigation, useFetcher, useActionData } from "@remix-run/react";
-
-import TodoPageDetails, {
-  loader,
-  action,
-  ErrorBoundary,
-} from "../_todos.$date.$todoPageId";
+import { createRemixStub } from "@remix-run/testing";
+import { screen, render, fireEvent, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, type Mock } from "vitest";
 
 import {
   getTodoPage,
@@ -20,9 +12,14 @@ import {
   modifyTodoStatus,
   deleteTodo,
 } from "~/models/todo.server";
-
 import { requireUserId } from "~/session.server";
 import { validateTodoContent } from "~/utils";
+
+import TodoPageDetails, {
+  loader,
+  action,
+  ErrorBoundary,
+} from "../_todos.$date.$todoPageId";
 
 vi.mock("~/models/todo.server");
 vi.mock("~/session.server");
@@ -266,17 +263,19 @@ describe("TodoPageDetails component", () => {
       ) as HTMLInputElement;
 
       expect(input.value).toBe("");
-
-      fireEvent.change(input, { target: { value: "New Todo" } });
-
-      expect(input.value).toBe("New Todo");
-
-      fireEvent.submit(screen.getByText("Add"));
-
-      (useNavigation as Mock).mockReturnValue({ state: "submitting" });
-
-      screen.debug();
     });
+
+    const input = screen.getByPlaceholderText(
+      "Buy groceries",
+    ) as HTMLInputElement;
+
+    fireEvent.change(input, { target: { value: "New Todo" } });
+
+    expect(input.value).toBe("New Todo");
+
+    fireEvent.submit(screen.getByText("Add"));
+
+    (useNavigation as Mock).mockReturnValue({ state: "submitting" });
 
     rerender(<RemixStub />);
 

@@ -1,14 +1,13 @@
-import { describe, it, expect, vi } from "vitest";
-import type { Mock } from "vitest";
-
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen, fireEvent } from "@testing-library/react";
-
-import NewTodoPage, { action, ErrorBoundary } from "../_todos.$date.new";
+import type { Mock } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 import { createTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 import { validateTodoPageName } from "~/utils";
+
+import NewTodoPage, { action, ErrorBoundary } from "../_todos.$date.new";
 
 vi.mock("~/models/todo.server", () => ({
   createTodoPage: vi.fn(),

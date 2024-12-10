@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
@@ -10,8 +9,14 @@ import {
   useNavigation,
   useActionData,
 } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 import invariant from "tiny-invariant";
 
+// UI components
+import InputErrorText from "~/components/InputErrorText";
+import TodoCheckbox from "~/components/TodoCheckbox";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import {
   getTodoPage,
   getAllTodos,
@@ -20,14 +25,7 @@ import {
   deleteTodo,
 } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
-
 import { validateTodoContent } from "~/utils";
-
-// UI components
-import InputErrorText from "~/components/InputErrorText";
-import TodoCheckbox from "~/components/TodoCheckbox";
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.todoPageId, "todoPageId not found");
@@ -100,11 +98,11 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
 export default function TodoPageDetails() {
   const data = useLoaderData<typeof loader>();
-  let navigation = useNavigation();
+  const navigation = useNavigation();
   const fetcher = useFetcher();
-  let formRef = useRef<HTMLFormElement>(null);
-  let inputRef = useRef<HTMLInputElement>(null);
-  let isAddingTodo = navigation.state === "submitting";
+  const formRef = useRef<HTMLFormElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const isAddingTodo = navigation.state === "submitting";
 
   const actionData = useActionData<typeof action>();
 

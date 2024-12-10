@@ -13,7 +13,7 @@ const DEFAULT_REDIRECT = "/";
  * @param {string} defaultRedirect The redirect to use if the to is unsafe.
  */
 export function safeRedirect(
-  to: FormDataEntryValue | string | null | undefined,
+  to: FormDataEntryValue | string | null | undefined | number,
   defaultRedirect: string = DEFAULT_REDIRECT,
 ) {
   if (!to || typeof to !== "string") {
@@ -100,6 +100,7 @@ export function validateTodoPageName(name: unknown): {
   }
 
   const lengthCheck = name.length > 0 && name.length <= 30;
+  // eslint-disable-next-line no-control-regex
   const asciiCharacterCheck = /^[\x00-\x7F]*$/.test(name);
 
   if (!lengthCheck) {
@@ -131,6 +132,7 @@ export function validateTodoContent(content: unknown): {
 
   const lengthCheck = content.length > 0 && content.length <= 150;
   // Add character check to include all ascii characters
+  // eslint-disable-next-line no-control-regex
   const asciiCharacterCheck = /^[\x00-\x7F]*$/.test(content);
 
   if (!lengthCheck) {

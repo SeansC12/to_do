@@ -1,10 +1,13 @@
-import { describe, it, beforeEach, vi } from "vitest";
-import type { Mock } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
-import { createRemixStub } from "@remix-run/testing";
-
 import type { AppLoadContext } from "@remix-run/node";
 import { useRouteError } from "@remix-run/react";
+import { createRemixStub } from "@remix-run/testing";
+import { render, screen, waitFor } from "@testing-library/react";
+import type { Mock } from "vitest";
+import { describe, it, beforeEach, expect, vi } from "vitest";
+
+import { getTodoPageListItems, deleteTodoPage } from "~/models/todo.server";
+import { requireUserId } from "~/session.server";
+import { extractNameFromEmail, useUser } from "~/utils";
 
 import {
   loader,
@@ -13,10 +16,6 @@ import {
   ErrorBoundary,
   default as Index,
 } from "../_todos.$date";
-
-import { extractNameFromEmail, useUser } from "~/utils";
-import { getTodoPageListItems, deleteTodoPage } from "~/models/todo.server";
-import { requireUserId } from "~/session.server";
 
 vi.mock("~/utils");
 vi.mock("~/models/todo.server");
@@ -123,8 +122,10 @@ describe("Index Route", () => {
 
     render(<RemixStub />);
 
-    expect(await screen.findByText("Test Todo 1")).toBeInTheDocument();
-    expect(await screen.findByText("Test Todo 2")).toBeInTheDocument();
+    await waitFor(async () => {
+      await screen.findByText("Test Todo 1");
+      await screen.findByText("Test Todo 2");
+    });
   });
 
   it("meta function returns correct title", () => {

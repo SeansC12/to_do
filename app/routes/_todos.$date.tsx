@@ -7,7 +7,6 @@ import { json, redirect } from "@remix-run/node";
 import {
   Form,
   Outlet,
-  useFetcher,
   useLoaderData,
   useNavigate,
   useRouteError,
@@ -15,16 +14,14 @@ import {
 } from "@remix-run/react";
 import { useState } from "react";
 
-import { extractNameFromEmail, useUser } from "~/utils";
-
-import { getTodoPageListItems, deleteTodoPage } from "~/models/todo.server";
-import { requireUserId } from "~/session.server";
-
+import CreateTodoPageTabItem from "~/components/CreateTodoPageTabItem";
 import { DatePicker } from "~/components/DatePicker";
 import TodoPageTabItem from "~/components/TodoPageTabItem";
-import CreateTodoPageTabItem from "~/components/CreateTodoPageTabItem";
-import { Separator } from "~/components/ui/separator";
 import { Button } from "~/components/ui/button";
+import { Separator } from "~/components/ui/separator";
+import { getTodoPageListItems, deleteTodoPage } from "~/models/todo.server";
+import { requireUserId } from "~/session.server";
+import { extractNameFromEmail, useUser } from "~/utils";
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
@@ -58,7 +55,9 @@ export default function Index() {
   return (
     <div className="flex w-full max-w-[1000px] flex-col items-center">
       <div className="mb-5 flex w-full flex-row items-start justify-between gap-5">
-        {user.email && <h1>{extractNameFromEmail(user.email)}'s To-Dos</h1>}
+        {user.email ? (
+          <h1>{extractNameFromEmail(user.email)}&apos;s To-Dos</h1>
+        ) : null}
         <DatePicker date={date} setDate={setDate} navigate={navigate} />
         <Form action="/logout" method="post">
           <Button

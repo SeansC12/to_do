@@ -1,5 +1,5 @@
-import { TrashIcon } from "lucide-react";
 import type { FetcherWithComponents } from "@remix-run/react";
+import { TrashIcon } from "lucide-react";
 
 export default function TodoCheckbox({
   content,

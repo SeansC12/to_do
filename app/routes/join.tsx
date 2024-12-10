@@ -7,11 +7,9 @@ import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
+import InputErrorText from "~/components/InputErrorText";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-
-import InputErrorText from "~/components/InputErrorText";
-
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
 import { safeRedirect, validateEmail } from "~/utils";

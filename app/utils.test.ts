@@ -1,19 +1,17 @@
+import { faker } from "@faker-js/faker";
+import { useMatches } from "@remix-run/react";
+import { renderHook } from "@testing-library/react-hooks";
+import { describe, it, expect, vi, Mock } from "vitest";
+
 import {
   safeRedirect,
   isUser,
   useOptionalUser,
-  useUser,
   validateEmail,
   extractNameFromEmail,
   validateTodoPageName,
   validateTodoContent,
 } from "./utils";
-
-import { renderHook } from "@testing-library/react-hooks";
-import { useMatches } from "@remix-run/react";
-import { describe, it, expect, vi, Mock } from "vitest";
-
-import { faker } from "@faker-js/faker";
 
 describe("safeRedirect function", () => {
   describe("safeRedirect", () => {
@@ -28,7 +26,7 @@ describe("safeRedirect function", () => {
     });
 
     it("should return the default redirect if 'to' is not a string", () => {
-      expect(safeRedirect(123 as any, DEFAULT_REDIRECT)).toBe(DEFAULT_REDIRECT);
+      expect(safeRedirect(123, DEFAULT_REDIRECT)).toBe(DEFAULT_REDIRECT);
     });
 
     it("should return the default redirect if 'to' does not start with '/'", () => {
@@ -48,10 +46,6 @@ describe("safeRedirect function", () => {
     });
   });
 });
-
-vi.mock("@remix-run/react", () => ({
-  useMatches: vi.fn(),
-}));
 
 describe("isUser", () => {
   it("should return true for a valid user object", () => {
@@ -77,6 +71,10 @@ describe("isUser", () => {
   });
 });
 
+vi.mock("@remix-run/react", () => ({
+  useMatches: vi.fn(),
+}));
+
 describe("useOptionalUser", () => {
   it("should return undefined if no matching route is found", () => {
     (useMatches as Mock).mockReturnValue([]);
@@ -101,33 +99,6 @@ describe("useOptionalUser", () => {
     expect(result.current).toEqual(mockUser);
   });
 });
-
-// vi.mock(import("./utils"), async () => {
-//   const actual = await vi.importActual("./utils");
-//   return {
-//     ...actual,
-//     useOptionalUser: vi.fn(),
-//   };
-// });
-
-// describe("useUser", () => {
-//   it("should throw an error if no user is found", () => {
-//     (useOptionalUser as Mock).mockReturnValue(undefined);
-//     const { result } = renderHook(() => useUser());
-//     expect(result.error).toEqual(
-//       new Error(
-//         "No user found in root loader, but user is required by useUser. If user is optional, try useOptionalUser instead.",
-//       ),
-//     );
-//   });
-
-//   it("should return the user if a user is found", () => {
-//     const mockUser = { email: "test@example.com" };
-//     (useOptionalUser as Mock).mockReturnValue(mockUser);
-//     const { result } = renderHook(() => useUser());
-//     expect(result.current).toEqual(mockUser);
-//   });
-// });
 
 describe("validateEmail function", () => {
   it("should return false for non-emails", () => {

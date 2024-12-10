@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
@@ -7,14 +6,13 @@ import {
   useRouteError,
   isRouteErrorResponse,
 } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
 import InputErrorText from "~/components/InputErrorText";
-
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import { createTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
-
 import { validateTodoPageName } from "~/utils";
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {

@@ -1,12 +1,12 @@
 import type { MetaFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { Link, redirect } from "@remix-run/react";
-import { requireUserId } from "~/session.server";
 
+import { requireUserId } from "~/session.server";
 import { useOptionalUser } from "~/utils";
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await requireUserId(request);
   const todayDate = new Date();
   const date = todayDate.toISOString().split("T")[0]; // in the correct yyyy-mm-dd format

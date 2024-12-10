@@ -1,5 +1,4 @@
-import { Form, Link } from "@remix-run/react";
-import { TrashIcon } from "lucide-react";
+import { Link } from "@remix-run/react";
 
 export default function CreateTodoPageTabItem({ date }: { date: string }) {
   return (
