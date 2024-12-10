@@ -73,14 +73,10 @@ jobs:
       - name: 📥 Install deps
         run: npm install
 
-      - name: Create env file
-        run: |
-          touch .env
-          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
-          echo SESSION_SECRET=${{ secrets.SESSION_SECRET }} >> .env
-          cat .env
-
       - name: ⚡ Run vitest
+      - env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL}}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
         run: npm run test -- --coverage
 
   cypress:
