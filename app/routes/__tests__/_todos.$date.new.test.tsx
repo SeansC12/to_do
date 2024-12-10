@@ -1,18 +1,14 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import {
-  RouterProvider,
-  createMemoryRouter,
-  BrowserRouter,
-} from "react-router-dom";
-
 import { describe, it, expect, vi } from "vitest";
-import { action, ErrorBoundary } from "../_todos.$date.new";
-import NewTodoPage from "../_todos.$date.new";
+import type { Mock } from "vitest";
+
+import { createRemixStub } from "@remix-run/testing";
+import { render, screen, fireEvent } from "@testing-library/react";
+
+import NewTodoPage, { action, ErrorBoundary } from "../_todos.$date.new";
+
 import { createTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 import { validateTodoPageName } from "~/utils";
-import { Mock } from "vitest";
-import { createRemixStub } from "@remix-run/testing";
 
 vi.mock("~/models/todo.server", () => ({
   createTodoPage: vi.fn(),
@@ -23,23 +19,13 @@ vi.mock("~/session.server", () => ({
 vi.mock("~/utils", () => ({
   validateTodoPageName: vi.fn(),
 }));
-// vi.mock("@remix-run/react", async () => {
-//   const actual = await vi.importActual("@remix-run/react");
-//   return {
-//     ...actual,
-//     useActionData: vi.fn(),
-//     useSubmit: vi.fn(),
-//   };
-// });
 
 describe("action function", () => {
   beforeEach(() => {
-    // tell vitest we use mocked time
     vi.useFakeTimers();
   });
 
   afterEach(() => {
-    // restoring date after each test run
     vi.useRealTimers();
   });
 
@@ -107,12 +93,16 @@ describe("action function", () => {
 
 describe("NewTodoPage component", () => {
   it("should render the form", () => {
-    const router = createMemoryRouter(
-      [{ path: "/", element: <NewTodoPage /> }],
-      { initialEntries: ["/"] },
-    );
+    const RemixStub = createRemixStub([
+      {
+        path: "/",
+        action: action,
+        Component: NewTodoPage,
+        ErrorBoundary: ErrorBoundary,
+      },
+    ]);
 
-    render(<RouterProvider router={router} />);
+    render(<RemixStub />);
 
     expect(
       screen.getByPlaceholderText("The title of your todo page."),
@@ -146,7 +136,6 @@ describe("NewTodoPage component", () => {
     fireEvent.click(screen.getByText("Add page"));
 
     const errorMessage = await screen.findByText("Invalid title");
-    screen.debug();
     expect(errorMessage).toBeInTheDocument();
   });
 });

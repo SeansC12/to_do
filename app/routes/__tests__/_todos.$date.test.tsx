@@ -1,12 +1,11 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import {
-  createMemoryRouter,
-  MemoryRouter,
-  Route,
-  RouterProvider,
-  Routes,
-} from "react-router-dom";
+import { describe, it, beforeEach, vi } from "vitest";
+import type { Mock } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
 import { createRemixStub } from "@remix-run/testing";
+
+import type { AppLoadContext } from "@remix-run/node";
+import { useRouteError } from "@remix-run/react";
+
 import {
   loader,
   action,
@@ -14,18 +13,15 @@ import {
   ErrorBoundary,
   default as Index,
 } from "../_todos.$date";
+
 import { extractNameFromEmail, useUser } from "~/utils";
 import { getTodoPageListItems, deleteTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
-import { json, redirect } from "@remix-run/node";
-import { describe, it, beforeEach, vi, Mock } from "vitest";
-import type { AppLoadContext } from "@remix-run/node";
-import { useRouteError } from "@remix-run/react";
 
 vi.mock("~/utils");
 vi.mock("~/models/todo.server");
 vi.mock("~/session.server");
-// Partially mock useRouteError
+
 vi.mock("@remix-run/react", async () => {
   const react = await import("@remix-run/react");
   return {

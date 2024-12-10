@@ -13,17 +13,16 @@ import {
   useRouteError,
   isRouteErrorResponse,
 } from "@remix-run/react";
-import { useState, useEffect } from "react";
-import { DatePicker } from "~/components/DatePicker";
-import { extractNameFromEmail } from "~/utils";
-import { useUser } from "~/utils";
+import { useState } from "react";
+
+import { extractNameFromEmail, useUser } from "~/utils";
 
 import { getTodoPageListItems, deleteTodoPage } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
+import { DatePicker } from "~/components/DatePicker";
 import TodoPageTabItem from "~/components/TodoPageTabItem";
 import CreateTodoPageTabItem from "~/components/CreateTodoPageTabItem";
-
 import { Separator } from "~/components/ui/separator";
 import { Button } from "~/components/ui/button";
 

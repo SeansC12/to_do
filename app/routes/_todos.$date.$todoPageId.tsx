@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
@@ -13,7 +14,6 @@ import invariant from "tiny-invariant";
 
 import {
   getTodoPage,
-  deleteTodoPage,
   getAllTodos,
   createTodo,
   modifyTodoStatus,
@@ -23,12 +23,11 @@ import { requireUserId } from "~/session.server";
 
 import { validateTodoContent } from "~/utils";
 
+// UI components
 import InputErrorText from "~/components/InputErrorText";
-
-import { TodoCheckbox } from "~/components/TodoCheckbox";
+import TodoCheckbox from "~/components/TodoCheckbox";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { useEffect, useRef } from "react";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.todoPageId, "todoPageId not found");

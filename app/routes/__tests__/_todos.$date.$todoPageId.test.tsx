@@ -1,10 +1,18 @@
 import { describe, it, expect, vi, type Mock } from "vitest";
-import type { AppLoadContext } from "@remix-run/node"; // or the correct path to AppLoadContext
+import type { AppLoadContext } from "@remix-run/node";
+import { json } from "@remix-run/node";
+
+import { screen, render, fireEvent, waitFor } from "@testing-library/react";
+import { createRemixStub } from "@remix-run/testing";
+
+import { useNavigation, useFetcher, useActionData } from "@remix-run/react";
+
 import TodoPageDetails, {
   loader,
   action,
   ErrorBoundary,
 } from "../_todos.$date.$todoPageId";
+
 import {
   getTodoPage,
   getAllTodos,
@@ -12,19 +20,9 @@ import {
   modifyTodoStatus,
   deleteTodo,
 } from "~/models/todo.server";
+
 import { requireUserId } from "~/session.server";
 import { validateTodoContent } from "~/utils";
-import { screen, render, fireEvent } from "@testing-library/react";
-import {
-  useLoaderData,
-  useNavigation,
-  useFetcher,
-  useActionData,
-} from "@remix-run/react";
-import { createRemixStub } from "@remix-run/testing";
-import { json } from "@remix-run/node";
-import { waitFor } from "@testing-library/react";
-import { act } from "react";
 
 vi.mock("~/models/todo.server");
 vi.mock("~/session.server");
