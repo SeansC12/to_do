@@ -35,7 +35,7 @@ describe("action function", () => {
       valid: true,
       message: "",
     });
-    const date = new Date(2023, 5, 5);
+    const date = new Date("2023-01-01");
     vi.setSystemTime(date);
 
     const request = new Request("http://localhost", {
@@ -48,7 +48,7 @@ describe("action function", () => {
     const result = await action({ request, params: {}, context: {} });
 
     expect(result.status).toBe(302);
-    expect(result.headers.get("Location")).toBe("/2023-06-04/todo-id");
+    expect(result.headers.get("Location")).toBe("/2023-01-01/todo-id");
   });
 
   it("should return validation error if title is invalid", async () => {
