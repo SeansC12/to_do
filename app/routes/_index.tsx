@@ -4,7 +4,7 @@ import { Link, redirect } from "@remix-run/react";
 import { requireUserId } from "~/session.server";
 import { useOptionalUser } from "~/utils";
 
-export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
+export const meta: MetaFunction = () => [{ title: "Todo app" }];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await requireUserId(request);
