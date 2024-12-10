@@ -35,8 +35,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const todoPageListItems = await getTodoPageListItems({ userId, date: date });
 
-  console.log(todoPageListItems);
-
   if (todoPageListItems) {
   }
   return json({ todoPageListItems: todoPageListItems, dateInUrl: date });

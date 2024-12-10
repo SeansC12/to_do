@@ -18,9 +18,10 @@ import { validateTodoPageName } from "~/utils";
 
 import InputErrorText from "~/components/InputErrorText";
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
   const todayDate = new Date().toISOString().split("T")[0];
+  const createdAt = params.date ? new Date(params.date) : new Date();
 
   const formData = await request.formData();
   const title = formData.get("title") as string;
@@ -30,10 +31,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ todoPageNameError: message }, { status: 400 });
   }
 
-  const todoPage = await createTodoPage({ title, userId });
+  console.log("new action", createdAt.toISOString());
+
+  const todoPage = await createTodoPage({ title, userId, createdAt });
   console.log("date", todayDate);
 
-  return redirect(`/${todayDate}/${todoPage.id}`);
+  return redirect(`/${createdAt.toISOString().split("T")[0]}/${todoPage.id}`);
 };
 
 export default function NewTodoPage() {

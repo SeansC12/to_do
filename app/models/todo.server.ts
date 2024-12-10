@@ -21,12 +21,12 @@ export function getTodoPageListItems({
   userId: User["id"];
   date: Date;
 }) {
-  console.log(date);
+  console.log("prisma date", date);
   // return the todo pages for the day of the given date
   return prisma.todoPage.findMany({
     where: {
       userId,
-      updatedAt: {
+      createdAt: {
         gte: date,
         lt: new Date(date.getTime() + 1000 * 60 * 60 * 24),
       },
@@ -39,12 +39,14 @@ export function getTodoPageListItems({
 export function createTodoPage({
   title,
   userId,
-}: Pick<TodoPage, "title"> & {
+  createdAt,
+}: Pick<TodoPage, "title" | "createdAt"> & {
   userId: User["id"];
 }) {
   return prisma.todoPage.create({
     data: {
       title,
+      createdAt,
       user: {
         connect: {
           id: userId,
