@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.74% </span>
+                <span class="strong">88.79% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>100/109</span>
+                <span class='fraction'>103/116</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.3% </span>
+                <span class="strong">86.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>24/26</span>
+                <span class='fraction'>26/30</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.74% </span>
+                <span class="strong">88.79% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>100/109</span>
+                <span class='fraction'>103/116</span>
             </div>
         
             
@@ -236,7 +236,16 @@
 <a name='L171'></a><a href='#L171'>171</a>
 <a name='L172'></a><a href='#L172'>172</a>
 <a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -273,16 +282,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -445,17 +463,26 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) =&gt; {
   invariant(params.todoPageId, "todoPageId not found");
 &nbsp;
   const todos = await getAllTodos({ todoPageId: params.todoPageId });
-  console.log(todos);
-  if (!todos || todos.length === 0) {
+  if (!todos) {
     // throw new Response("Not Found", { status: 404 });
     throw new Error("Todo page not found.");
   }
 &nbsp;
+  const todoPageCreatedAt = params.date &amp;&amp; new Date(params.date);
+  if (!todoPageCreatedAt) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    throw new Error("Invalid date");</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+&nbsp;
   const userId = await requireUserId(request);
   const todoPageName = await getTodoPage({
     id: params.todoPageId,
+    createdAt: todoPageCreatedAt,
     userId: userId,
   });
+&nbsp;
+  if (!todoPageName) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    throw new Error("Todo page not found.");</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
   return json({
     todos,
@@ -589,7 +616,7 @@ export <span class="fstat-no" title="function not covered" >function ErrorBounda
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-12-09T14:13:03.821Z
+                at 2024-12-10T02:56:55.646Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

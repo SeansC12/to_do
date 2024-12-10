@@ -56,7 +56,7 @@ describe("loader", () => {
   });
 
   it("should return todos and todoPageName", async () => {
-    const params = { todoPageId: "1" };
+    const params = { todoPageId: "1", date: "2023/01/01" };
     const request = new Request("http://localhost");
     const todos = [{ id: "1", content: "Test Todo", completed: false }];
     const todoPage = { title: "Test Page" };
