@@ -18,7 +18,7 @@ export default function TodoPageTabItem({
       <Link className="grow p-2" to={`/${date}/${id}`}>
         <div className="truncate">{title}</div>
       </Link>
-      <div className="flex max-w-[31px] items-center justify-center p-2">
+      <div className="flex max-w-[43px] items-center justify-center p-2">
         <Form className="max-h-[27px]" method="delete">
           <button
             className="rounded-md px-[5px] py-[3px] transition-all hover:bg-red-950"
