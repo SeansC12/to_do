@@ -73,13 +73,10 @@ jobs:
       - name: 📥 Install deps
         run: npm install
 
-      - name: Set env variables
+      - name: ⚡ Run vitest
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL}}
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-        run: echo "DATABASE_URL=$DATABASE_URL" >> .env && echo "SESSION_SECRET=$SESSION_SECRET" >> .env
-
-      - name: ⚡ Run vitest
         run: npm run test -- --coverage
 
   cypress:
