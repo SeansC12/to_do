@@ -34,17 +34,26 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.todoPageId, "todoPageId not found");
 
   const todos = await getAllTodos({ todoPageId: params.todoPageId });
-  console.log(todos);
   if (!todos) {
     // throw new Response("Not Found", { status: 404 });
     throw new Error("Todo page not found.");
   }
 
+  const todoPageCreatedAt = params.date && new Date(params.date);
+  if (!todoPageCreatedAt) {
+    throw new Error("Invalid date");
+  }
+
   const userId = await requireUserId(request);
   const todoPageName = await getTodoPage({
     id: params.todoPageId,
+    createdAt: todoPageCreatedAt,
     userId: userId,
   });
+
+  if (!todoPageName) {
+    throw new Error("Todo page not found.");
+  }
 
   return json({
     todos,

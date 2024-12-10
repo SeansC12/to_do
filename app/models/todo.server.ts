@@ -5,12 +5,21 @@ import { prisma } from "~/db.server";
 export function getTodoPage({
   id,
   userId,
+  createdAt,
 }: Pick<TodoPage, "id"> & {
   userId: User["id"];
+  createdAt: Date;
 }) {
   return prisma.todoPage.findFirst({
     select: { id: true, title: true },
-    where: { id, userId },
+    where: {
+      id,
+      userId,
+      createdAt: {
+        gte: createdAt,
+        lt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24),
+      },
+    },
   });
 }
 
