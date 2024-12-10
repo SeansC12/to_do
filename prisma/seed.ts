@@ -28,6 +28,7 @@ async function seed() {
     data: {
       title: "My first todo page",
       userId: user.id,
+      createdAt: new Date(),
     },
   });
 
@@ -35,6 +36,7 @@ async function seed() {
     data: {
       title: "My second to do page",
       userId: user.id,
+      createdAt: new Date(),
     },
   });
 
