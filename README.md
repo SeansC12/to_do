@@ -6,6 +6,8 @@
 <br />
 <div align="center">
 
+  ![favicon-96](https://github.com/user-attachments/assets/a65a9d18-2b15-42c3-a0b9-f77231645ab9)
+
   <h1 align="center">To-do List App</h1>
 
   <p align="center">
