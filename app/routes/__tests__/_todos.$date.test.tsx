@@ -141,7 +141,7 @@ describe("Index Route", () => {
       },
       matches: [],
     });
-    expect(result).toEqual([{ title: "Remix Notes" }]);
+    expect(result).toEqual([{ title: "Todo App" }]);
   });
 });
 
